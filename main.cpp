@@ -79,7 +79,6 @@ void MergeSort(int A[],int l, int mid, int h)
         A[i]=B[i];
 }
 
-
 void IMergeSort(int A[],int n)
 {
     int p,i,mid,l,h=0;
@@ -129,8 +128,8 @@ int main()
     int A[10]={1,2,46,34,6,4,8,9,5,7};
     int n=10;
 //  BubbelSort(A, n);
-    InsertionSort(A, n);
-    
+//  InsertionSort(A, n);
+    IMergeSort(A, n);
     for(int k=0;k<n;k++)
     {
         cout<<A[k]<<" ";
