@@ -59,7 +59,7 @@ void InsertionSort(int A[], int n)
 void MergeSort(int A[],int l, int mid, int h)
 {
     int i,j,k;
-    int B[h++];
+    int B[h+1];
     i=l;j=mid+1;k=l;
     
     while(i<=mid && j<=h)
