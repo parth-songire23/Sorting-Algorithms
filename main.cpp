@@ -38,6 +38,23 @@ void BubbelSort(int A[],int n)
     }
 }
 
+void InsertionSort(int A[], int n)
+{
+    int i,j,x=0;
+    
+    for(i=1;i<n;i++)
+    {
+        j=i-1;
+        x=A[i];
+        
+        while(j>-1 && A[j]>x)
+        {
+            A[j+1]=A[j];
+            j--;
+        }
+        A[j+1]=x;
+    }
+}
 
 int main()
 {
@@ -69,7 +86,9 @@ int main()
     
     int A[10]={1,2,46,34,6,4,8,9,5,7};
     int n=10;
-    BubbelSort(A, n);
+//  BubbelSort(A, n);
+    InsertionSort(A, n);
+    
     for(int k=0;k<n;k++)
     {
         cout<<A[k]<<" ";
