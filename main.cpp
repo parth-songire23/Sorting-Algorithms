@@ -7,8 +7,29 @@
 
 #include <iostream>
 #include <string>
+#include <chrono>
+#include <thread>
+
 using namespace std;
 
+struct Timer
+{
+    std::chrono::time_point<std::chrono::steady_clock> start,end;
+    std::chrono::duration<float> duration;
+    Timer()
+    {
+        start = std::chrono::high_resolution_clock::now();
+    }
+    
+    ~Timer()
+    {
+        end = std::chrono::high_resolution_clock::now();
+        duration = (end-start);
+        
+        float us = duration.count()*1000000.0f;
+        cout<<"time taken is "<< us <<"us "<<endl;
+    }
+};
 
 void swap(int* a, int* b)
 {
@@ -16,44 +37,6 @@ void swap(int* a, int* b)
     temp = *a;
     *a = *b;
     *b = temp;
-}
-
-void BubbelSort(int A[],int n)
-{
-    int i,j;
-    int flag;
-    for(i=0;i<n-1;i++)
-    {
-        flag=0;
-        for(j=0;j<n-i-1;j++)
-        {
-            if(A[j]>A[j+1])
-            {
-                swap(&A[j],&A[j+1]);
-                flag=1;
-            }
-        }
-        if(flag==0)
-            break;
-    }
-}
-
-void InsertionSort(int A[], int n)
-{
-    int i,j,x=0;
-    
-    for(i=1;i<n;i++)
-    {
-        j=i-1;
-        x=A[i];
-        
-        while(j>-1 && A[j]>x)
-        {
-            A[j+1]=A[j];
-            j--;
-        }
-        A[j+1]=x;
-    }
 }
 
 void MergeSort(int A[],int l, int mid, int h)
@@ -79,8 +62,10 @@ void MergeSort(int A[],int l, int mid, int h)
         A[i]=B[i];
 }
 
+
 void IMergeSort(int A[],int n)
 {
+    Timer timer;
     int p,i,mid,l,h=0;
     
     for(p=2;p<=n;p=p*2)
@@ -95,6 +80,46 @@ void IMergeSort(int A[],int n)
     }
     if(p/2<n)
         MergeSort(A,0,p/2,n-1);
+}
+
+void BubbelSort(int A[],int n)
+{
+    Timer timer;
+    int i,j;
+    int flag;
+    for(i=0;i<n-1;i++)
+    {
+        flag=0;
+        for(j=0;j<n-i-1;j++)
+        {
+            if(A[j]>A[j+1])
+            {
+                swap(&A[j],&A[j+1]);
+                flag=1;
+            }
+        }
+        if(flag==0)
+            break;
+    }
+}
+
+void InsertionSort(int A[], int n)
+{
+    Timer timer;
+    int i,j,x=0;
+    
+    for(i=1;i<n;i++)
+    {
+        j=i-1;
+        x=A[i];
+        
+        while(j>-1 && A[j]>x)
+        {
+            A[j+1]=A[j];
+            j--;
+        }
+        A[j+1]=x;
+    }
 }
 
 int main()
@@ -125,14 +150,54 @@ int main()
 //        cout<<index<<endl;
 //    }
     
-    int A[10]={1,2,46,34,6,4,8,9,5,7};
-    int n=10;
-//  BubbelSort(A, n);
-//  InsertionSort(A, n);
-    IMergeSort(A, n);
-    for(int k=0;k<n;k++)
+//    int A[8]={1,2,34,46,3,7,8,10};
+//    int n=8;
+//    InsertionSort(A, n);
+//    MergeSort(A,0,3,7);
+    
+//    int k,n;
+
+//
+//    IMergeSort(A, n);
+//    for(k=0;k<n;k++)
+//    {
+//        cout<<A[k]<<" \n";
+//    }
+    int k,n;
+    cin>>n;
+    int A[n];
+    int B[n];
+    for(k=0;k<n;k++)
     {
-        cout<<A[k]<<" ";
+        A[k]=rand();
+        B[k]=rand();
     }
+    
+    cout<<"For Merge Sort ";
+    IMergeSort(A, n);
+    
+    // 10000    3184.71us
+    // 20000    6130.46us
+    // 30000    9387.5us
+    // 50000    16751.1us
+    // 100000   31468.4us
+    // 500000   100999us
+    // 1000000  163680us
+    
+    cout<<"For Insertion Sort ";
+    InsertionSort(B, n);
+    
+    // 10000    67754.3us
+    // 20000    168733us
+    // 30000    341110us
+    // 40000    569780us
+    // 50000    887548us
+    // 100000
+    // 500000
+    // 1000000
+
     return 0;
+    
+    
 }
+
